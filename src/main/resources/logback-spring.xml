@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_HOME" value="/var/log/myapp" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+		<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread][%-5level] %logger{36} - %msg%n</pattern>			
+        </encoder>
+    </appender>
+	
+	<appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/application.log</file>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread][%-5level] %logger{36} - %msg%n</pattern>
+			<!-- <charset>utf8</charset> -->
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>application.%d{yyyy-MM-dd}.gz</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>	
+	</appender>
+
+    <logger name="org.springframework.cache" level="trace">
+        <appender-ref ref="STDOUT" />
+    </logger>
+	
+	<logger name="org.slf4j.Logger" level="info">
+        <appender-ref ref="STDOUT" />
+    </logger>
+	
+	<logger name="org.slf4j.Logger" level="info">
+        <appender-ref ref="LOGFILE" />
+    </logger>
+	
+	<root level="${root-level:-info}">
+        <appender-ref ref="STDOUT" />
+    </root>
+	
+	<root level="${root-level:-info}">
+        <appender-ref ref="LOGFILE" />
+    </root>
+	
+</configuration>
